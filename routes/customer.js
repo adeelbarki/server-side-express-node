@@ -2,16 +2,16 @@ var express = require('express');
 var router = express.Router('');
 var CustomerService = require('../services/service.customer');
 
-// Get Customer Listing
 
+// Get Customer Listing
 router.get('/', async (req, res, next) => {
     res.json({
         error: "Invalid customer UID."
     });
 });
 
-// Adds new customer to the List 
 
+// Adds new customer to the List 
 router.post('/', async (req, res, next) => {
     const body = req.body;
 
@@ -35,3 +35,43 @@ router.post('/', async (req, res, next) => {
         return next(err);
     }
 })
+
+// Retrieve a customer by ID 
+router.get('/:id', async (req, res, next) => {
+    
+    try {
+        const customer = await CustomerService.retrieve(req.params.id);
+
+        return res.json({ customer: customer });
+    }
+    catch(err) {
+        // Unexpected error
+        return next(err);
+    }
+});
+
+// Update customer
+router.put('/:id', async (req, res, next) => {
+    try {
+        const customer = await CustomerService.update(req.param.id, req.body);
+
+        return res.json({ customer: customer });
+    }
+    catch(err) {
+        return next(err);
+    }
+});
+
+// Delete customer
+router.delete('/:id', async (req, res, next) => {
+    try {
+        const customer = await CustomerService.delete(req.params.id);
+
+        return res.json({ success: true });
+    }
+    catch(err){
+        return next(err);
+    }
+});
+
+module.exports = router
