@@ -75,4 +75,4 @@ class CustomerService {
         }
 };
 
-module.exports =  CustomerService;
+module.exports = CustomerService;
